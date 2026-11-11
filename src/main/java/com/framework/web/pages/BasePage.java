@@ -1,13 +1,12 @@
 package com.framework.web.pages;
 
-import com.framework.config.FrameworkConfig;
 import com.framework.core.driver.DriverManager;
+import com.framework.web.waits.WaitFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
 /** Shared explicit-wait and browser operations for Page Objects. */
 public abstract class BasePage {
@@ -16,12 +15,15 @@ public abstract class BasePage {
 
     protected BasePage() {
         driver = DriverManager.getDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(
-                FrameworkConfig.getInstance().getInt("wait.timeout.seconds", 15)));
+        wait = WaitFactory.create(driver);
     }
 
-    protected WebElement visible(By locator) { return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)); }
-    protected WebElement clickable(By locator) { return wait.until(ExpectedConditions.elementToBeClickable(locator)); }
+    protected WebElement visible(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+    protected WebElement clickable(By locator) {
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
     protected void click(By locator) { clickable(locator).click(); }
     protected void type(By locator, String value) {
         WebElement element = visible(locator);
