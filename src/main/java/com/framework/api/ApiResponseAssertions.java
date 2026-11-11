@@ -1,21 +1,25 @@
 package com.framework.api;
 
 import io.restassured.response.Response;
-import org.testng.Assert;
 
-/** Common response assertions with readable failure messages. */
+/** Common response assertions without coupling production framework code to a test runner. */
 public final class ApiResponseAssertions {
     private ApiResponseAssertions() { }
+
     public static void assertStatusCode(Response response, int expectedStatusCode) {
-        Assert.assertNotNull(response, "API response must not be null.");
-        Assert.assertEquals(response.statusCode(), expectedStatusCode,
-                "Unexpected HTTP status. Response body: " + response.asString());
+        if (response == null) throw new AssertionError("API response must not be null.");
+        if (response.statusCode() != expectedStatusCode) {
+            throw new AssertionError("Expected HTTP status " + expectedStatusCode + " but received "
+                    + response.statusCode() + ". Response body: " + response.asString());
+        }
     }
+
     public static void assertContentTypeContains(Response response, String expectedContentType) {
-        Assert.assertNotNull(response, "API response must not be null.");
-        Assert.assertTrue(response.getContentType() != null
-                        && response.getContentType().contains(expectedContentType),
-                "Expected content type to contain '" + expectedContentType
-                        + "' but was '" + response.getContentType() + "'.");
+        if (response == null) throw new AssertionError("API response must not be null.");
+        String actualContentType = response.getContentType();
+        if (actualContentType == null || !actualContentType.contains(expectedContentType)) {
+            throw new AssertionError("Expected content type to contain '" + expectedContentType
+                    + "' but was '" + actualContentType + "'.");
+        }
     }
 }
