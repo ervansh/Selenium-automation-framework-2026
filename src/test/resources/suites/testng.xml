@@ -3,6 +3,9 @@
 <suite name="Automation Framework Suite" parallel="tests" thread-count="3">
   <listeners><listener class-name="com.tests.listeners.AllureTestListener"/></listeners>
   <test name="Web Tests"><classes><class name="com.tests.web.ExampleWebTest"/></classes></test>
-  <test name="API Tests"><classes><class name="com.tests.api.ExampleApiTest"/></classes></test>
+  <test name="API Tests"><classes>
+    <class name="com.tests.api.ExampleApiTest"/>
+    <class name="com.tests.api.ApiClientContractTest"/>
+  </classes></test>
   <test name="Database Tests"><classes><class name="com.tests.database.PostgresConnectionTest"/></classes></test>
 </suite>
