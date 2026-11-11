@@ -16,7 +16,9 @@ public final class WaitFactory {
         if (timeoutSeconds <= 0 || pollingMillis <= 0) {
             throw new IllegalArgumentException("Wait timeout and polling interval must be positive.");
         }
-        return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds),
-                Duration.ofMillis(pollingMillis)).ignoring(StaleElementReferenceException.class);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds),
+                Duration.ofMillis(pollingMillis));
+        wait.ignoring(StaleElementReferenceException.class);
+        return wait;
     }
 }
