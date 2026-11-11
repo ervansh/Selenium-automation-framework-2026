@@ -1,0 +1,13 @@
+target/
+allure-results/
+allure-report/
+logs/
+*.log
+.idea/
+.vscode/
+*.iml
+.DS_Store
+.env
+.env.*
+!.env.example
+src/test/resources/config/framework.properties
